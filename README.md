@@ -41,12 +41,13 @@ var route = require('way');
 
 var myRoute = route({
   method: 'GET',
-  path: '/my-path',
+  path: '/my-path/:id',
   before: function (req, res, next) {
     // Do something here
     next();
   },
   handler: function (req, res) {
+    console.log(req.params.id);
     res.end('you got served!');
   }
 });
@@ -79,7 +80,7 @@ http.createServe(function (req, res) {
   ```js
   route({
     handler: function (req, res) {
-      res.end('done');
+      res.end(req.params);
     }
   });
   ```
