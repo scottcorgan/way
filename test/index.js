@@ -173,6 +173,45 @@ describe('serving routes', function () {
       .end(done);
   });
   
+  it('serves a route after looping through all before methods in order', function (done) {
+    route._resetRoutes();
+    var app = connect();
+    
+    var before1 = false;
+    var before2 = false;
+    var beforeSequence = [];
+    
+    app.use(route({
+      path: '/path',
+      before: [
+        function (req, res, next) {
+          before1 = true;
+          beforeSequence.push('before1');
+          next();
+        },
+        function (req, res, next) {
+          before2 = true;
+          beforeSequence.push('before2');
+          next();
+        }
+      ],
+      handler: function (req, res) {
+        res.end('handler');
+      }
+    }));
+    
+    request(app)
+      .get('/path')
+      .expect(200)
+      .expect('handler')
+      .end(function () {
+        expect(before1).to.equal(true);
+        expect(before2).to.equal(true);
+        expect(beforeSequence).to.eql(['before1', 'before2']);
+        done();
+      });
+  });
+  
   it('serves a route when multiple routes are defined', function (done) {
     route._resetRoutes();
     var app = connect();

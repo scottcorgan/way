@@ -22,6 +22,8 @@ route.create = function (options) {
   }
   
   return function (req, res, next) {
+    next = next || function () {};
+    
     var entry = route.lookup(req.url, req.method);
     
     if (!entry) return next();
