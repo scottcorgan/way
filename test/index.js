@@ -59,6 +59,24 @@ describe('adding a route', function () {
     
     expect(way._routes.get['/path']).to.be.a(Route);
   });
+  
+  it('adds an array of routes in a single middleware', function () {
+    var way = new Way();
+    
+    way.route([
+      {
+        path: '/path',
+        handle: function () {}
+      },
+      {
+        path: '/another-path',
+        handle: function () {}
+      }
+    ]);
+    
+    expect(way._routes.get['/path']).to.not.equal(undefined);
+    expect(way._routes.get['/another-path']).to.not.equal(undefined);
+  });
 });
 
 describe('path lookup', function (t) {
@@ -173,6 +191,33 @@ describe('serving routes', function () {
       .get('/another-route')
       .expect(200)
       .expect('another route')
+      .end(done);
+  });
+  
+  it('serves a route that was added as an array of routes', function (done) {
+    var app = connect();
+    var way = new Way();
+    var routes = [
+      {
+        path: '/path',
+        handler: function (req, res) {
+          res.end('path');
+        }
+      },
+      {
+        path: '/another-route',
+        handler: function (req, res) {
+          res.end('another-route');
+        }
+      }
+    ];
+    
+    app.use(way.route(routes));
+    
+    request(app)
+      .get('/another-route')
+      .expect(200)
+      .expect('another-route')
       .end(done);
   });
 });

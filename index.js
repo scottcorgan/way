@@ -1,20 +1,27 @@
-var Route = require('./lib/route');
-var globject = require('globject');
 var pathToRegexp = require('path-to-regexp');
 var zipObject = require('zip-object');
 var merge = require('merge');
+var Route = require('./lib/route');
 
 var Way = function () {
   this._routes = {};
 };
 
 Way.prototype.route = function (options) {
-  if (!options.path) throw new Error('A route requires a path');
-  if (!options.method) options.method = 'GET';
-  
   var way = this;
-  var routeMethod = this._routes[options.method.toLowerCase()] || (this._routes[options.method.toLowerCase()] = {});
-  routeMethod[options.path] = new Route(options);
+  
+  if (Array.isArray(options)) {
+    options.forEach(function (option) {
+      way.route(option);
+    });
+  }
+  else{
+    if (!options.path) throw new Error('A route requires a path');
+    if (!options.method) options.method = 'GET';
+    
+    var routeMethod = this._routes[options.method.toLowerCase()] || (this._routes[options.method.toLowerCase()] = {});
+    routeMethod[options.path] = new Route(options);
+  }
   
   return function (req, res, next) {
     var entry = way.lookup(req.url, req.method);
