@@ -61,9 +61,10 @@ http.createServe(function (req, res) {
 
 ### route(options)
 
-**Options**
+#### Options
+
 * `path` - the route. This pathname works exactly like Express routes. (i.e. `/users/:id/friends/:friendId`, etc.)
-* `method` - http method type - `GET`, `POST`, etc.
+* `method` - http method type - `GET`, `POST`, etc. Defaults to `GET`.
 * `before ` - a single function or an array of functions to run before the handler.
   * they take the following method signature (similare to Connect/Express middleware):
   ```js
