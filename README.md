@@ -62,7 +62,7 @@ http.createServe(function (req, res) {
 ### route(options)
 
 **Options**
-* 'path' - the route. This pathname works exactly like Express routes. (i.e. `/users/:id/friends/:friendId`, etc.)
+* `path` - the route. This pathname works exactly like Express routes. (i.e. `/users/:id/friends/:friendId`, etc.)
 * `method` - http method type - `GET`, `POST`, etc.
 * `before ` - a single function or an array of functions to run before the handler.
   * they take the following method signature (similare to Connect/Express middleware):
@@ -73,7 +73,7 @@ http.createServe(function (req, res) {
     }
   });
   ```
-* 'handler' - the final method called on the matching route.
+* `handler` - the final method called on the matching route.
   * this uses the following method signature:
   ```js
   route({
@@ -83,7 +83,7 @@ http.createServe(function (req, res) {
   });
   ```
   
-## Run Test
+## Run Tests
 
 ```
 npm install
