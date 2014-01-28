@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Route = require('../lib/route');
 
-describe('a route', function () {
+describe('a route object', function () {
   it('supports a single before method', function () {
     var before = function () {
     };

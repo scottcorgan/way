@@ -131,5 +131,49 @@ describe('serving routes', function () {
       .expect(404)
       .end(done);
   });
+  
+  it('sends a response from the before methods', function (done) {
+    var app = connect();
+    var way = new Way();
+    
+    app.use(way.route({
+      path: '/path',
+      before: function (req, res, next) {
+        res.end('from before');
+      },
+      handler: function () {}
+    }));
+    
+    request(app)
+      .get('/path')
+      .expect('from before')
+      .expect(200)
+      .end(done);
+  });
+  
+  it('serves a route when multiple routes are defined', function (done) {
+    var app = connect();
+    var way = new Way();
+    
+    app.use(way.route({
+      path: '/path',
+      handler: function (req, res) {
+        res.end('path');
+      }
+    }));
+    
+    app.use(way.route({
+      path: '/another-route',
+      handler: function (req, res) {
+        res.end('another route');
+      }
+    }));
+    
+    request(app)
+      .get('/another-route')
+      .expect(200)
+      .expect('another route')
+      .end(done);
+  });
 });
 
