@@ -1,6 +1,6 @@
 {
   "name": "way",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple, single Connect/Express routes",
   "main": "index.js",
   "scripts": {

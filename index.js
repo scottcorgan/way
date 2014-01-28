@@ -3,28 +3,26 @@ var zipObject = require('zip-object');
 var merge = require('merge');
 var Route = require('./lib/route');
 
-var Way = function () {
-  this._routes = {};
+var route = function (options) {
+  return route.create(options);
 };
 
-Way.prototype.route = function (options) {
-  var way = this;
-  
+route._routes = {};
+
+route.create = function (options) {
   if (Array.isArray(options)) {
-    options.forEach(function (option) {
-      way.route(option);
-    });
+    options.forEach(route.create);
   }
   else{
     if (!options.path) throw new Error('A route requires a path');
     if (!options.method) options.method = 'GET';
     
-    var routeMethod = this._routes[options.method.toLowerCase()] || (this._routes[options.method.toLowerCase()] = {});
+    var routeMethod = route._routes[options.method.toLowerCase()] || (route._routes[options.method.toLowerCase()] = {});
     routeMethod[options.path] = new Route(options);
   }
   
   return function (req, res, next) {
-    var entry = way.lookup(req.url, req.method);
+    var entry = route.lookup(req.url, req.method);
     
     if (!entry) return next();
     
@@ -32,8 +30,8 @@ Way.prototype.route = function (options) {
   };
 };
 
-Way.prototype.lookup = function (pathname, method) {
-  var methodTable = this._routes[method.toLowerCase()];
+route.lookup = function (pathname, method) {
+  var methodTable = route._routes[method.toLowerCase()];
   var keys = Object.keys(methodTable);
   var len = keys.length;
   var i = 0;
@@ -57,10 +55,25 @@ Way.prototype.lookup = function (pathname, method) {
   }
 };
 
+route._resetRoutes = function () {
+  route._routes = {};
+};
+
+module.exports = route;
+
+
+
+
+
+
+
+
+
+
+
+
 function pluck (arr, key) {
   return arr.map(function (item) {
     return item[key];
   });
 }
-
-module.exports = Way;
