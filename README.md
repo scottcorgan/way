@@ -67,22 +67,22 @@ http.createServe(function (req, res) {
 * `method` - http method type - `GET`, `POST`, etc. Defaults to `GET`.
 * `before ` - a single function or an array of functions to run before the handler.
   * they take the following method signature (similare to Connect/Express middleware):
-  ```js
-  route({
-    before: function (req, res, next) {
-      next();
-    }
-  });
-  ```
+    ```js
+    route({
+      before: function (req, res, next) {
+        next();
+      }
+    });
+    ```
 * `handler` - the final method called on the matching route.
   * this uses the following method signature:
-  ```js
-  route({
-    handler: function (req, res) {
-      res.end('done');
-    }
-  });
-  ```
+    ```js
+    route({
+      handler: function (req, res) {
+        res.end('done');
+      }
+    });
+    ```
   
 ## Run Tests
 
