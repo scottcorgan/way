@@ -91,7 +91,7 @@ describe('path lookup', function (t) {
     });
     
     expect(route.lookup('/pathname', 'GET')).to.not.equal(undefined);
-    expect(route.lookup('/pathname', 'GET').route).to.not.equal(undefined);
+    expect(route.lookup('/pathname', 'GET').value).to.not.equal(undefined);
     expect(route.lookup('/pathname', 'GET').params).to.not.equal(undefined);
     expect(route.lookup('/no-route', 'GET')).to.equal(undefined);
   });

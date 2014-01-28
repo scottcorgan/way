@@ -2,6 +2,7 @@ var pathToRegexp = require('path-to-regexp');
 var zipObject = require('zip-object');
 var merge = require('merge');
 var Route = require('./lib/route');
+var pathetic = require('pathetic');
 
 var route = function (options) {
   return route.create(options);
@@ -28,34 +29,16 @@ route.create = function (options) {
     
     if (!entry) return next();
     
-    entry.route.handle(merge(req, entry), res);
+    entry.value.handle(merge(req, entry), res);
   };
 };
 
 route.lookup = function (pathname, method) {
-  var methodTable = route._routes[method.toLowerCase()];
-  var keys = Object.keys(methodTable);
-  var len = keys.length;
-  var i = 0;
-  var paramKeys = [];
-  var paramValues = [];
-  var key;
-  var rexp;
-  
-  for(i; i < len; i += 1) {
-    key = keys[i];
-    rexp = pathToRegexp(key, paramKeys);
-    
-    if (pathname.match(rexp)) {
-      paramValues = pathname.match(rexp).slice(1);
-      
-      return {
-        route: methodTable[key],
-        params: zipObject(pluck(paramKeys, 'name'), paramValues)
-      }
-    }
-  }
+  var routes = pathetic(route._routes[method.toLowerCase()]);
+  return routes(pathname);
 };
+
+
 
 route._resetRoutes = function () {
   route._routes = {};

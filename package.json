@@ -1,6 +1,6 @@
 {
   "name": "way",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple, Standalone/Connect/Express routes ",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "drainer": "0.2.x",
     "path-to-regexp": "0.0.2",
     "zip-object": "~0.1.0",
-    "merge": "~1.1.2"
+    "merge": "~1.1.2",
+    "pathetic": "~0.1.0"
   }
 }
