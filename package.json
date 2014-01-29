@@ -1,6 +1,6 @@
 {
   "name": "way",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Simple, Standalone/Connect/Express routes ",
   "main": "index.js",
   "scripts": {
@@ -16,19 +16,13 @@
     "url": "https://github.com/scottcorgan/way/issues"
   },
   "devDependencies": {
-    "tap-spec": "~0.1.3",
     "supertest": "~0.9.0",
     "connect": "~2.12.0",
     "mocha": "~1.17.1",
     "expect.js": "~0.2.0"
   },
   "dependencies": {
-    "globject": "0.1.x",
-    "as-array": "0.1.x",
-    "drainer": "0.2.x",
-    "path-to-regexp": "0.0.2",
-    "zip-object": "~0.1.0",
     "merge": "~1.1.2",
-    "pathetic": "~0.1.0"
+    "piston": "~0.1.0"
   }
 }

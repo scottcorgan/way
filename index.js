@@ -1,26 +1,14 @@
-var pathToRegexp = require('path-to-regexp');
-var zipObject = require('zip-object');
 var merge = require('merge');
-var Route = require('./lib/route');
-var pathetic = require('pathetic');
+var Piston = require('piston');
 
 var route = function (options) {
   return route.create(options);
 };
 
-route._routes = {};
+route.table = new Piston();
 
 route.create = function (options) {
-  if (Array.isArray(options)) {
-    options.forEach(route.create);
-  }
-  else{
-    if (!options.path) throw new Error('A route requires a path');
-    if (!options.method) options.method = 'GET';
-    
-    var routeMethod = route._routes[options.method.toLowerCase()] || (route._routes[options.method.toLowerCase()] = {});
-    routeMethod[options.path] = new Route(options);
-  }
+  route.table.register(options);
   
   return function (req, res, next) {
     next = next || function () {};
@@ -34,31 +22,19 @@ route.create = function (options) {
 };
 
 route.lookup = function (pathname, method) {
-  var routes = pathetic(route._routes[method.toLowerCase()]);
-  return routes(pathname);
+  return route.table.lookup(pathname, method);
 };
 
 
 
 route._resetRoutes = function () {
-  route._routes = {};
+  route.table.reset();
 };
-
-module.exports = route;
-
-
-
-
-
-
-
-
-
-
-
 
 function pluck (arr, key) {
   return arr.map(function (item) {
     return item[key];
   });
 }
+
+module.exports = route;

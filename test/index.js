@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Way = require('../');
 var route = require('../');
-var Route = require('../lib/route');
+var Piston = require('Piston');
 var request = require('supertest');
 var connect = require('connect');
 
@@ -9,13 +9,13 @@ describe('adding a route', function () {
   it('adds a route to the routing table', function () {
     route._resetRoutes();
     
-    var routes = {'get': {'/': new Route()}};
-    var middleware = route({
+    var routes = {'get': {'/': new Piston.Route()}};
+    route({
       method: 'GET',
       path: '/'
     });
     
-    expect(route._routes.toString()).to.equal(routes.toString());
+    expect(route.table.routes.toString()).to.equal(routes.toString());
   });
   
   it('lowercases the route method', function () {
@@ -26,7 +26,7 @@ describe('adding a route', function () {
       path: '/'
     });
     
-    expect(route._routes['get']['/']).to.not.equal(undefined);
+    expect(route.table.getRoute('/', 'get')).to.not.equal(undefined);
   });
   
   it('forces a path for the route', function () {
@@ -47,20 +47,11 @@ describe('adding a route', function () {
   
   it('defaults to GET method if none is provided', function () {
     route._resetRoutes();
-    var middleware = route({
-      path: '/path'
-    });
-    
-    expect(route._routes.get).to.not.equal(undefined);
-  });
-  
-  it('instantiates a route object as the value of the route', function () {
-    route._resetRoutes();
     route({
       path: '/path'
     });
     
-    expect(route._routes.get['/path']).to.be.a(Route);
+    expect(route.table.routes.get).to.not.equal(undefined);
   });
   
   it('adds an array of routes in a single middleware', function () {
@@ -77,8 +68,8 @@ describe('adding a route', function () {
       }
     ]);
     
-    expect(route._routes.get['/path']).to.not.equal(undefined);
-    expect(route._routes.get['/another-path']).to.not.equal(undefined);
+    expect(route.table.getRoute('/path')).to.not.equal(undefined);
+    expect(route.table.getRoute('/another-path')).to.not.equal(undefined);
   });
 });
 
