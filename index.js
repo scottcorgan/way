@@ -31,10 +31,4 @@ route._resetRoutes = function () {
   route.table.reset();
 };
 
-function pluck (arr, key) {
-  return arr.map(function (item) {
-    return item[key];
-  });
-}
-
 module.exports = route;
