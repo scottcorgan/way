@@ -82,8 +82,7 @@ describe('path lookup', function (t) {
     });
     
     expect(route.lookup('/pathname', 'GET')).to.not.equal(undefined);
-    expect(route.lookup('/pathname', 'GET').value).to.not.equal(undefined);
-    expect(route.lookup('/pathname', 'GET').params).to.not.equal(undefined);
+    expect(route.lookup('/pathname', 'GET').params()).to.not.equal(undefined);
     expect(route.lookup('/no-route', 'GET')).to.equal(undefined);
   });
   
@@ -106,8 +105,8 @@ describe('path lookup', function (t) {
     
     var matchedRoute = route.lookup('/users/123/friends/456', 'POST');
     
-    expect(matchedRoute.params.id).to.equal('123');
-    expect(matchedRoute.params.friendId).to.equal('456');
+    expect(matchedRoute.params().id).to.equal('123');
+    expect(matchedRoute.params().friendId).to.equal('456');
   });
 });
 

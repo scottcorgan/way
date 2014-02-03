@@ -2,12 +2,12 @@ var merge = require('merge');
 var Piston = require('piston');
 
 var route = function (options) {
-  return route.create(options);
+  return route.register(options);
 };
 
 route.table = new Piston();
 
-route.create = function (options) {
+route.register = function (options) {
   route.table.register(options);
   
   return function (req, res, next) {
@@ -17,15 +17,15 @@ route.create = function (options) {
     
     if (!entry) return next();
     
-    entry.value.handle(merge(req, entry), res);
+    entry.handle(merge(req, {
+      params: entry.params()
+    }), res);
   };
 };
 
 route.lookup = function (pathname, method) {
   return route.table.lookup(pathname, method);
 };
-
-
 
 route._resetRoutes = function () {
   route.table.reset();

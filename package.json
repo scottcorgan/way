@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "merge": "~1.1.2",
-    "piston": "~0.1.0"
+    "piston": "0.2.x"
   }
 }

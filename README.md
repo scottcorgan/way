@@ -42,10 +42,15 @@ var route = require('way');
 var myRoute = route({
   method: 'GET',
   path: '/my-path/:id',
-  before: function (req, res, next) {
-    // Do something here
-    next();
-  },
+  before: [
+    function (req, res, next) {
+      // Do something here
+      next();
+    },
+    function (req, res, next) {
+    
+    }
+  ],
   handler: function (req, res) {
     console.log(req.params.id);
     res.end('you got served!');
@@ -68,22 +73,22 @@ http.createServe(function (req, res) {
 * `method` - http method type - `GET`, `POST`, etc. Defaults to `GET`.
 * `before ` - a single function or an array of functions to run before the handler.
   * they take the following method signature (similare to Connect/Express middleware):
-  ```js
-  route({
-    before: function (req, res, next) {
-      next();
-    }
-  });
+```js
+route({
+  before: function (req, res, next) {
+    next();
+  }
+});
   ```
 * `handler` - the final method called on the matching route.
   * this uses the following method signature:
-  ```js
-  route({
-    handler: function (req, res) {
-      res.end(req.params);
-    }
-  });
-  ```
+```js
+route({
+  handler: function (req, res) {
+    res.end(req.params);
+  }
+});
+```
   
 ## Run Tests
 
